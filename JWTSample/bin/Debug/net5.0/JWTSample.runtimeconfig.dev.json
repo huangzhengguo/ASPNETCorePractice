@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/zhengguo/.dotnet/store/|arch|/|tfm|",
+      "/Users/zhengguo/.nuget/packages"
+    ]
+  }
+}
