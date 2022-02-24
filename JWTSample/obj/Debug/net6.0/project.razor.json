@@ -16296,6 +16296,17 @@
     "CSharpLanguageVersion": 1000
   },
   "RootNamespace": "JWTSample",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "/Users/zhengguo/Github/ASPNETCorePractice/JWTSample/Views/Home/Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/zhengguo/Github/ASPNETCorePractice/JWTSample/Views/Home/NoNeedAuthentication.cshtml",
+      "TargetPath": "Views\\Home\\NoNeedAuthentication.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }
