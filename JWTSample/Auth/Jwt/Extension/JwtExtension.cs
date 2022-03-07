@@ -9,6 +9,12 @@ namespace JWTSample.Extension;
 
 public static class JwtExtension
 {
+    /// <summary>
+    /// 封装服务添加
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
     public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -18,10 +24,7 @@ public static class JwtExtension
 
         services.AddSingleton(jwtSettings);
 
-        services.AddAuthentication(options => 
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
         {
             options.TokenValidationParameters = jwtSettings.ValidationParameters;
         });

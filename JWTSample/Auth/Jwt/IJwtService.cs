@@ -8,6 +8,8 @@ namespace JWTSample.Auth.Jwt
     /// </summary>
     public interface IJwtService
     {
+        string GetnerateToken(UserDto userDto);
+
         /// <summary>
         /// 新增 Token
         /// </summary>

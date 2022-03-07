@@ -33,6 +33,32 @@ namespace JWTSample.Auth.Jwt
         }
 
         /// <summary>
+        /// 生成 JWT
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
+        public string GetnerateToken(UserDto userDto)
+        {
+            var claims = new Claim[]
+            {
+                new Claim(ClaimTypes.Name, userDto.UserName),
+                new Claim(ClaimTypes.Role, userDto.Roles)
+            };
+
+            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["secretKey:sha256secret"]));
+
+            var issuer = _configuration["JwtIssuerOptions:Issuer"];
+            var audience = _configuration["JwtIssuerOptions:Audience"];
+            var expires = DateTime.Now.AddHours(24);
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(claims: claims, issuer: issuer, audience: audience, expires: expires, signingCredentials: signingCredentials);
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            return tokenHandler.WriteToken(jwtSecurityToken);
+        }
+
+        /// <summary>
         /// 新增 Token
         /// </summary>
         /// <param name="userDto">用户传输对象</param>
