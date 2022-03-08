@@ -1,4 +1,4 @@
-namespace JWTSample.Auth.Jwt.Dto
+namespace JWTSample.Jwt
 {
     /// <summary>
     /// JWT传输对象

@@ -1,6 +1,6 @@
 using System;
 
-namespace JWTSample.Auth.Jwt.Dto
+namespace JWTSample.Jwt
 {
     /// <summary>
     /// 用户传输对象

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using JWTSample.Auth.Jwt;
+using JWTSample.Jwt;
 
 namespace JWTSample.Auth.Handles
 {
@@ -38,11 +38,11 @@ namespace JWTSample.Auth.Handles
                 var result = await httpContext.AuthenticateAsync(authorizationScheme.Name);
                 if (result.Succeeded)
                 {
-                    if (!await _jwtService.IsCurrentTokenValid())
-                    {
-                        context.Fail();
-                        return;
-                    }
+                    // if (!await _jwtService.IsCurrentTokenValid())
+                    // {
+                    //     context.Fail();
+                    //     return;
+                    // }
 
                     httpContext.User = result.Principal;
 

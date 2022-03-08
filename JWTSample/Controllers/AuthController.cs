@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using JWTSample.Jwt;
@@ -13,48 +15,39 @@ namespace JWTSample.Controllers;
 
 public class AuthController : Controller
 {
-    private readonly IStorageUserService _storageUserService;
-    private readonly JwtSettings _jwtSettings;
+    private readonly IJwtService _jwtService;
 
-    public AuthController(IStorageUserService storageUserService, JwtSettings jwtSettings)
+    public AuthController(IJwtService jwtService)
     {
-        _storageUserService = storageUserService;
-        _jwtSettings = jwtSettings;
+        _jwtService = jwtService;
     }
 
-    /// <summary>
-    /// 生成 JWT token
-    /// </summary>
-    /// <param name="loginUserInfo"></param>
-    /// <returns></returns>
+    [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> GenerateJWTToke([FromBody] LoginUserInfo loginUserInfo)
+    public IActionResult Login([FromBody] LoginUserInfo loginUserInfo)
     {
-        // 检测用户密码
-        var user = await _storageUserService.CheckPasswordAsync(loginUserInfo);
-        if (user == null)
+        if (loginUserInfo.Name == null)
         {
             return Ok(new
             {
-                Code = 1,
-                Message = "用户登录失败!"
+                Message = "用户名不能为空!"
             });
         }
 
-        // 生成 token
-        var claims = new List<Claim>();
-
-        claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-        claims.Add(new Claim(ClaimTypes.Name, user.Name));
-
-        var key = new SymmetricSecurityKey(_jwtSettings.Key);
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(issuer: _jwtSettings.Issuer, audience: _jwtSettings.Audience, claims, DateTime.Now.AddMinutes(30), signingCredentials:creds);
+        var userDto = new UserDto()
+        {
+            UserId = new Random().Next(1000),
+            UserName = loginUserInfo.Name,
+            Groups = "技术部",
+            Roles = "软件工程师",
+            Email = "123456789@qq.com",
+            Phone = "123456789"
+        };
+        var token = _jwtService.GetnerateJWTToken(userDto);
 
         return Ok(new
         {
-            Code = 0,
-            Token = new JwtSecurityTokenHandler().WriteToken(token)
+            Token = token
         });
     }
 
