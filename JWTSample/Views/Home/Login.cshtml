@@ -1,0 +1,65 @@
+<div class="login-box" style="margin: 0 auto 0 auto;">
+    <div class="login-logo">
+        <b>创亿达</b>
+    </div>
+
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">登录</p>
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text" asp-for="Name" id="name" class="form-control" placeholder="用户名" />
+                    <div class="input-group-append">
+                        <span class="fa fa-user input-group-text"></span>
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" asp-for="Password" id="password" class="form-control" placeholder="密码" />
+                    <div class="input-group-append">
+                        <span class="fa fa-lock input-group-text"></span>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input asp-for="RememberMe" type="checkbox" /> 记住密码
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" id="login-button" class="btn btn-primary btn-block btn-flat">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 登录
+    const loginBtn = document.getElementById('login-button');
+    console.log('loginBtn = ' + loginBtn);
+    var model = {
+        name: '用户'
+    }
+
+    var jsonBody = JSON.stringify(model);
+
+    loginBtn.addEventListener('click', function (ev) {
+        console.log('登录');
+        fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonBody
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('data = ' + data);
+        });
+    }, false);
+</script>

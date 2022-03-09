@@ -56,23 +56,24 @@ public class AuthController : Controller
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
-    public CurrentUser DecodeJWTToken(string token)
+    [HttpGet]
+    public IActionResult DecodeJWTToken(string token)
     {
         var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 
         if (jwtSecurityTokenHandler.CanReadToken(token))
         {
             JwtPayload jwtPayload = jwtSecurityTokenHandler.ReadJwtToken(token).Payload;
-            string userId = jwtPayload.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            string userId = jwtPayload.Claims.FirstOrDefault(m => m.Type == ClaimTypes.Role).Value;
             string userName = jwtPayload.Claims.FirstOrDefault(m => m.Type == ClaimTypes.Name).Value;
             CurrentUser currentUser = new CurrentUser
             {
                 // IsAuthenticated = true,
-                UserId = userId == null ? null : Convert.ToInt32(userId),
+                UserId = 21,
                 UserName = userName
             };
 
-            return currentUser;
+            return Ok(currentUser);
         }
 
         return null;

@@ -56,7 +56,7 @@ namespace JWTSample
                 var response = option.HttpContext.Response;
                 if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
                 {
-                    response.Redirect("/home/NoNeedAuthentication");
+                    response.Redirect("/home/login");
                 }
             });
 
