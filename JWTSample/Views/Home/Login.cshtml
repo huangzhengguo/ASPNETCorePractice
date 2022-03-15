@@ -60,6 +60,8 @@
         .then(response => response.json())
         .then(data => {
             console.log('data = ' + data);
+            // 跳转到首页
+            window.location.href = '/home/index';
         });
     }, false);
 </script>

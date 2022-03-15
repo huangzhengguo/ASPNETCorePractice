@@ -14,14 +14,11 @@ namespace JWTSample.Jwt;
 /// </summary>
 public class JwtService : IJwtService
 {
-    // 获取 Http 上下文
-    private readonly IHttpContextAccessor _httpContextAccessor;
     // 配置
     private readonly IConfiguration _configuration;
-    public JwtService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+    public JwtService(IConfiguration configuration)
     {
         _configuration = configuration;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     /// <summary>
@@ -80,5 +77,4 @@ public class JwtService : IJwtService
 
         return null;
     }
-
 }

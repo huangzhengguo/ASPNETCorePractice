@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using JWTSample.Jwt;
+using JWTSample.Auth;
 
 namespace JWTSample
 {
@@ -38,7 +39,14 @@ namespace JWTSample
             // 添加 JWT 服务
             services.AddJwt(Configuration);
 
-            services.AddAuthorization();
+            // 鉴权
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CustomPolicy", policy => policy.Requirements.Add(new PersmissionRequirement()));
+            });
+
+            // 鉴权处理程序
+            services.AddTransient<IAuthorizationHandler, PersmissionHandler>();
 
             services.AddControllersWithViews();
         }

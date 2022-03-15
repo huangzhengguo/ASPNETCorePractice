@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace JWTSample.Controllers;
 
-[Authorize]
+[Authorize(Policy = "CustomPolicy")] // 使用策略授权
 public class HomeController : Controller
 {
     public HomeController()
